@@ -42,6 +42,7 @@
 
 /* Uses the slack button feature to offer a real time bot to multiple teams */
 var Botkit = require('botkit');
+var _ = require('lodash');
 
 if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.PORT || !process.env.VERIFICATION_TOKEN) {
     console.log('Error: Specify CLIENT_ID, CLIENT_SECRET, VERIFICATION_TOKEN and PORT in environment');
@@ -51,22 +52,16 @@ if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.PORT ||
 var config = {}
 if (process.env.MONGOLAB_URI) {
     var BotkitStorage = require('botkit-storage-mongo');
-    config = {
-        storage: BotkitStorage({mongoUri: process.env.MONGOLAB_URI}),
-    };
+    config = { storage: BotkitStorage({mongoUri: process.env.MONGOLAB_URI}) };
 } else {
-    config = {
-        json_file_store: './db_slackbutton_slash_command/',
-    };
+    config = { json_file_store: './db/' };
 }
 
-var controller = Botkit.slackbot(config).configureSlackApp(
-    {
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        scopes: ['commands'],
-    }
-);
+var controller = Botkit.slackbot(config).configureSlackApp({
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    scopes: ['commands'],
+});
 
 controller.setupWebserver(process.env.PORT, function (err, webserver) {
     controller.createWebhookEndpoints(controller.webserver);
@@ -80,41 +75,53 @@ controller.setupWebserver(process.env.PORT, function (err, webserver) {
     });
 });
 
+// Command to set default time : today, tomorrow, week...
+// Change default for /iamhere command : today -> tomorrow ?
 
-//
-// BEGIN EDITING HERE!
-//
+var TIPS = {
+  "/whoshere":
+    "Check if you'll not be alone at the office. Try :\n" +
+    "/whoshere (office | home | @stephme) [today | tomorrow | thursday | week]\n" +
+    "_today is the default_",
+  "/iamhere":
+    "Inform others where you'll work at a given time. Try :\n" +
+    "/iamhere (office | home | coworking space | at @stephme's place) [today | tomorrow | thursday | week]\n" +
+    "_today is the default_\n" +
+    "_*/hereiam* is a shorthand for `/iamhere office today`_"
+};
+
+function unableToProceedCommand(command) {
+  return _.sample([
+    "I'm afraid I don't know how to " + command + " yet.",
+    command + " is not something I can understand yet.",
+    "Try a valid command instead because " + command + " is a shitty one."
+  ]);
+};
+
+function helpCommand(command) {
+  return TIPS[command] || "No help for this command yet.";
+}
 
 controller.on('slash_command', function (slashCommand, message) {
+  if (message.command) {
+    if (message.token !== process.env.VERIFICATION_TOKEN) return; // ignore the message
 
-    switch (message.command) {
-        case "/echo": //handle the `/echo` slash command. We might have others assigned to this app too!
-            // The rules are simple: If there is no text following the command, treat it as though they had requested "help"
-            // Otherwise just echo back to them what they sent us.
-
-            // but first, let's make sure the token matches!
-            if (message.token !== process.env.VERIFICATION_TOKEN) return; //just ignore it.
-
-            // if no text was supplied, treat it as a help command
-            if (message.text === "" || message.text === "help") {
-                slashCommand.replyPrivate(message,
-                    "I echo back what you tell me. " +
-                    "Try typing `/echo hello` to see.");
-                return;
-            }
-
-            // If we made it here, just echo what the user typed back at them
-            //TODO You do it!
-            slashCommand.replyPublic(message, "1", function() {
-                slashCommand.replyPublicDelayed(message, "2").then(slashCommand.replyPublicDelayed(message, "3"));
-            });
-
-            break;
-        default:
-            slashCommand.replyPublic(message, "I'm afraid I don't know how to " + message.command + " yet.");
-
+    if (Object.keys(TIPS).includes(message.command) &&
+        (message.text == "" || message.text === "help")) {
+      slashCommand.replyPrivate(message, helpCommand(message.command));
+      return;
     }
 
-})
-;
-
+    if (message.command === "/whoshere") {
+      // "/whoshere" command
+    } else if (message.command === "/iamhere") {
+      // "/iamhere" command
+      slashCommand.replyPrivate(message, "Yet to be done");
+    } else if (message.command === "/hereiam") {
+      // "/hereiam" command
+      slashCommand.replyPrivate(message, "Yet to be done");
+    } else {
+      slashCommand.replyPrivate(message, unableToProceedCommand(message.command));
+    }
+  }
+});
