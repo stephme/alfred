@@ -1,0 +1,30 @@
+{
+    "text": "4 personnes au bureau cette semaine",
+    "attachments": [
+		{
+			"color": "#36a64f",
+    	"fields": [
+        {
+          "title": "Today",
+          "value": "@stephme, @patrick",
+          "short": true
+        },
+				{
+					"title": "Thursday",
+					"value": "@stephme",
+					"short": true
+				},
+				{
+					"title": "Wednesday",
+					"value": "@evelyne",
+					"short": true
+				},
+				{
+					"title": "Friday",
+					"value": "@mathfrot",
+					"short": true
+				}
+			]
+		}
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "text": "@stephme will be at the office 2 times this week",
+  "attachments": [
+		{
+			"color": "#36a64f",
+			"fields": [
+				{
+					"title": "Office",
+					"value": "Monday, Thursday, Wednesday, Friday, Saturday, Sunday",
+					"short": true
+				},
+				{
+					"title": "Home",
+					"value": "Tuesday",
+					"short": true
+				}
+			]
+		},
+		{
+			"color": "#453278",
+			"title": "Bliss",
+			"text": "Wednesday",
+			"title_link": "http://www.blissparis.fr/",
+			"image_url": "http://vectorlogo4u.com/wp-content/uploads/2015/09/google-maps-vector-720x340.png",
+		  "ts": 123456789
+		}
+  ]
+}
