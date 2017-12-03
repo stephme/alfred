@@ -378,7 +378,7 @@ controller.on('slash_command', function (slashCommand, message) {
       }
 
       whoshere(args, function(result) {
-        slashCommand.replyPublic(message, result);
+        slashCommand.replyPrivate(message, result);
       });
     } else if (message.command === "/iamhere") {
       // "/iamhere" command
