@@ -208,9 +208,7 @@ function whoshere(args, callback) {
     callback(_.isArray(result) ? result.join(' ') : result);
   };
 
-  console.log('args : ', args);
   find(args, function(res) {
-    console.log('results : ', res);
     if (res.length) {
       if (args.period) {
         if (args.location) {
@@ -238,12 +236,10 @@ function whoshere(args, callback) {
         var filteredRes = _.filter(res, function (doc) { 
           return moment(doc.period).isSameOrAfter(today, 'day');
         });
-        console.log('filtered : ', filteredRes);
 
         if (args.location) {
           // week-format-1 - office -> today: @stephme, ... | thursday: No one | friday: No one ...
           const formattedRes = _.chain(filteredRes).filter({ location: args.location }).groupBy('period').value();
-          console.log('formatted : ', formattedRes);
 
           var attachments = [{
             color: ATTACHMENT_COLORS[args.location],
@@ -263,7 +259,6 @@ function whoshere(args, callback) {
         } else if (args.user) {
           // week-format-2 - @stephme -> today: office | thursday: home | friday: home...
           const formattedRes = _.chain(filteredRes).filter({ user: args.user }).groupBy('location').value();
-          console.log('formatted : ', formattedRes);
 
           var text;
           if (_.get(formattedRes, 'office.length')) {
@@ -340,14 +335,12 @@ function insert(query, callback) {
       if (res.length) {
         db.collection('locations').update(res[0], _.merge({}, query), function(err, res) {
           if (err) throw err;
-          console.log(res + " document(s) updated");
           db.close();
           callback();
         });
       } else {
         db.collection('locations').insert(_.merge({}, query), function(err, res) {
           if (err) throw err;
-          console.log('1 document inserted : \n', res);
           db.close();
           callback();
         });
