@@ -19,6 +19,7 @@ Three commands are available so far :
 To run locally :
 
 `CLIENT_ID=xxx CLIENT_SECRET=xxx VERIFICATION_TOKEN=xxx PORT=8765 npm start`
+
 `ngrok http 8765`
 
 Change urls in slack app configuration... Then, go to : `https://{ngrok_url}/login`
