@@ -46,7 +46,8 @@ controller.setupWebserver(process.env.PORT, function (err, webserver) {
 // ------------------------------------------------------------------------------
 
 var mongoClient = mongo.MongoClient;
-var mongoUrl = "mongodb://localhost:27017/whoshere";
+var mongoUrl = process.env.NODE_ENV === "production" ?
+  process.env.MONGODB_URI : "mongodb://localhost:27017/whoshere";
 
 function connectToMongo(callback) {
   mongoClient.connect(mongoUrl, function(err, db) {
