@@ -2,6 +2,8 @@
 
 ![The loyal Alfred](/images/alfred.png)
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
 Three commands are available so far :
 
 - `/whoshere`: check if you'll not be alone at the office.
@@ -23,7 +25,3 @@ To run locally :
 `ngrok http 8765`
 
 Change urls in slack app configuration... Then, go to : `https://{ngrok_url}/login`
-
-# Deploy to heroku
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
