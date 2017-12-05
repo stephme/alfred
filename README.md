@@ -23,3 +23,7 @@ To run locally :
 `ngrok http 8765`
 
 Change urls in slack app configuration... Then, go to : `https://{ngrok_url}/login`
+
+# Deploy to heroku
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
