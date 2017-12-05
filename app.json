@@ -1,0 +1,28 @@
+{
+  "name": "Alfred",
+  "description": "Ask Alfred with whom you'll take a fresh coffee today",
+  "repository": "https://github.com/stephme/alfred",
+  "env": {
+    "CLIENT_ID": {
+      "description": "Slack app client ID credential",
+      "required": true
+    },
+    "CLIENT_SECRET": {
+      "description": "Slack app client secret credential",
+      "required": true
+    },
+    "VERIFICATION_TOKEN": {
+      "description": "Slack app verification token credential",
+      "required": true
+    },
+    "PORT": {
+      "description": "Listening port of the application",
+      "required": true
+    },
+    "MONGODB_URI": {
+      "description": "URI to the MongoDB server",
+      "required": true
+    },
+  },
+  "image": "heroku/nodejs"
+}
