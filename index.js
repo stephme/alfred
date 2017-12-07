@@ -18,9 +18,9 @@ if (!process.env.CLIENT_ID || !process.env.CLIENT_SECRET || !process.env.PORT ||
 }
 
 var config = {}
-if (process.env.MONGOLAB_URI) {
+if (process.env.MONGODB_URI) {
     var BotkitStorage = require('botkit-storage-mongo');
-    config = { storage: BotkitStorage({mongoUri: process.env.MONGOLAB_URI}) };
+    config = { storage: BotkitStorage({ mongoUri: process.env.MONGODB_URI }) };
 } else {
     config = { json_file_store: './db/' };
 }
@@ -45,9 +45,10 @@ controller.setupWebserver(process.env.PORT, function (err, webserver) {
 
 // ------------------------------------------------------------------------------
 
+var DEV_MONGODB_URI = "mongodb://localhost:27017/whoshere";
+
 var mongoClient = mongo.MongoClient;
-var mongoUrl = process.env.NODE_ENV === "production" ?
-  process.env.MONGODB_URI : "mongodb://localhost:27017/whoshere";
+var mongoUrl = process.env.MONGODB_URI || DEV_MONGODB_URI;
 
 function connectToMongo(callback) {
   mongoClient.connect(mongoUrl, function(err, db) {
@@ -247,7 +248,7 @@ function whoshere(args, callback) {
           }];
 
           var periods = Object.keys(formattedRes);
-          for(var period of periods) {
+          for (var period of periods) {
             attachments[0].fields.push({
               title: moment(period, DATE_FORMAT).calendar(null, MOMENT_CALENDAR),
               value: _.map(formattedRes[period], 'user').toSentence(),
