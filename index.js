@@ -228,9 +228,9 @@ function whoshere(args, callback) {
           ]);
         }
       } else {
-        var today = moment().format(DATE_FORMAT);
-        var filteredRes = _.filter(res, function (doc) { 
-          return moment(doc.period).isSameOrAfter(today, 'day');
+        var today = moment();
+        var filteredRes = _.filter(res, function (doc) {
+          return moment(doc.period, DATE_FORMAT).isSameOrAfter(today, 'day');
         });
 
         if (args.location) {
