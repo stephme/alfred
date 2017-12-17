@@ -1,0 +1,14 @@
+{
+  "apps": [{
+    "script" : "./run.sh",
+    "env": {
+      "NODE_ENV": "production",
+      "CLIENT_ID": "262284336982.260747569328",
+      "CLIENT_SECRET": "eb01c1fcf985215810f4c80efe647373",
+      "MONGODB_URI": "mongodb://heroku_3cnj8xdx:lag7vjmg0kr2idsj5mfqocjcpt@ds123722.mlab.com:23722/heroku_3cnj8xdx",
+      "MONGOLAB_NAVY_URI": "mongodb://heroku_p7d629xk:5at4e1ivuh68v3ho37d877mrf5@ds129946.mlab.com:29946/heroku_p7d629xk",
+      "VERIFICATION_TOKEN": "QCAXsoNQSf5sdNRDVvQ3ohvy",
+      "PORT": "8765"
+    }
+  }]
+}
